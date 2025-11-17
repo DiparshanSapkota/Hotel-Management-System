@@ -1,4 +1,3 @@
-# details.py - Hotel Management System (FULLY FIXED & WORKING)
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -6,9 +5,6 @@ import sqlite3
 
 DB_FILE = 'hotel.db'
 
-# --------------------------------------------------------------
-# DATABASE
-# --------------------------------------------------------------
 def connect_db():
     conn = sqlite3.connect(DB_FILE)
     cur = conn.cursor()
@@ -31,25 +27,24 @@ def close_db(conn):
     if conn:
         conn.close()
 
-# --------------------------------------------------------------
-# MAIN WINDOW
-# --------------------------------------------------------------
+
+# MAIN 
 win = tk.Tk()
 win.title("Hotel Management System")
 win.geometry("1450x800+10+10")
 
-# --------------------------------------------------------------
+
 # ROOMS LIST
-# --------------------------------------------------------------
+
 ROOMS = ["101", "102", "103", "104", "105", "106"]
 PRICE_PER_DAY = "2500"
 CLEAN_STATUS = "Clean"
 
 connection, cursor = connect_db()
 
-# --------------------------------------------------------------
-# REFRESH ROOM STATUS - NOW 100% CORRECT
-# --------------------------------------------------------------
+
+# ROOM STATUS 
+
 def refresh_room_status():
     for item in room_tree.get_children():
         room_tree.delete(item)
@@ -82,9 +77,6 @@ def refresh_room_status():
             checkout
         ), tags=(tag,))
 
-# --------------------------------------------------------------
-# CRUD FUNCTIONS
-# --------------------------------------------------------------
 def add_occupant():
     room_no = room_ent.get().strip()
     name = name_ent.get().strip()
@@ -205,9 +197,7 @@ def early_checkout():
         refresh_room_status()
         reset_buttons()
 
-# --------------------------------------------------------------
-# GUI
-# --------------------------------------------------------------
+
 tk.Label(win, text="Hotel Management System", font=("Arial", 32, "bold"), bg="#2c3e50", fg="white", pady=20).pack(fill=tk.X)
 
 # Search Bar
@@ -281,9 +271,6 @@ style.theme_use("clam")
 room_tree.tag_configure("occupied", background="#ffebee", foreground="#c62828", font=("Arial", 10, "bold"))
 room_tree.tag_configure("vacant", background="#e8f5e8", foreground="#2e7d32", font=("Arial", 10, "bold"))
 
-# --------------------------------------------------------------
-# START
-# --------------------------------------------------------------
 view_occupants()
 refresh_room_status()
 reset_buttons()
