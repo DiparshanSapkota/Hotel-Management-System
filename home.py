@@ -1,17 +1,12 @@
-# home.py
-# Stay-In Hotel Management – Clean Dashboard
-# Fully compatible with your UPDATED billing.py
-
 import tkinter as tk
 from tkinter import messagebox, Toplevel, Label
 import subprocess
 import sys
 import os
 
-# Make sure we can find your files
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-# Import billing (safe)
+# Import billing 
 try:
     import billing
 except ImportError:
@@ -30,7 +25,6 @@ class HotelDashboard(tk.Tk):
         self.create_ui()
 
     def create_ui(self):
-        # Header
         header = tk.Frame(self, bg="#158aff", height=100)
         header.pack(fill=tk.X)
         header.pack_propagate(False)
@@ -40,7 +34,6 @@ class HotelDashboard(tk.Tk):
         Label(header, text="Management System", font=("Arial", 18),
               fg="#a0d8ff", bg="#158aff").pack()
 
-        # Main content
         main = tk.Frame(self, bg="#1a1a2e")
         main.pack(expand=True)
 
@@ -62,31 +55,29 @@ class HotelDashboard(tk.Tk):
             "activeforeground": "white"
         }
 
-        # Billing Button – opens inside dashboard (updated for new class)
+        # Billing Button 
         tk.Button(btn_frame, text="Billing System\nGenerate & Save Bills",
                   bg="#158aff", command=self.open_billing, **style).grid(row=0, column=0, padx=60, pady=30)
 
-        # Room Booking Button – opens original details.py unchanged
+        # Room Booking Button 
         tk.Button(btn_frame, text="Room Booking\nCheck-in / Check-out / Status",
                   bg="#e74c3c", command=self.open_details_original, **style).grid(row=0, column=1, padx=60, pady=30)
 
-        # Footer
         Label(self, text="© 2025 Stay-In Hotel • Kathmandu, Nepal", 
               font=("Arial", 10), fg="#888", bg="#1a1a2e").pack(side=tk.BOTTOM, pady=20)
 
     def open_billing(self):
-        # Now using the correct class name: HotelManagementSystem
         win = Toplevel(self)
         win.title("Hotel Billing System - 8 Tables")
-        win.geometry("1370x720")  # Slightly larger to fit your updated UI
+        win.geometry("1370x720")  
         win.focus_force()
-        win.grab_set()  # Modal window
+        win.grab_set()  
         
-        # Call the correct class from your updated billing.py
+        
         billing.HotelManagementSystem(win)
 
     def open_details_original(self):
-        # Opens your original details.py in a separate process — no changes needed!
+        
         file_path = os.path.join(os.path.dirname(__file__), "details.py")
         if os.path.exists(file_path):
             subprocess.Popen([sys.executable, file_path])
@@ -97,6 +88,6 @@ class HotelDashboard(tk.Tk):
 
 # Run dashboard
 if __name__ == "__main__":
-    # No need to call create_database() anymore — billing.py handles it itself
+    
     app = HotelDashboard()
     app.mainloop()
