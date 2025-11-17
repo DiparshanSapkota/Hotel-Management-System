@@ -1,0 +1,102 @@
+# home.py
+# Stay-In Hotel Management – Clean Dashboard
+# Fully compatible with your UPDATED billing.py
+
+import tkinter as tk
+from tkinter import messagebox, Toplevel, Label
+import subprocess
+import sys
+import os
+
+# Make sure we can find your files
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+# Import billing (safe)
+try:
+    import billing
+except ImportError:
+    messagebox.showerror("Error", "billing.py not found in the same folder!")
+    exit()
+
+
+class HotelDashboard(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Stay-In Hotel Management System")
+        self.geometry("1100x650")
+        self.configure(bg="#1a1a2e")
+        self.resizable(False, False)
+
+        self.create_ui()
+
+    def create_ui(self):
+        # Header
+        header = tk.Frame(self, bg="#158aff", height=100)
+        header.pack(fill=tk.X)
+        header.pack_propagate(False)
+
+        Label(header, text="STAY-IN HOTEL", font=("Arial", 36, "bold"),
+              fg="white", bg="#158aff").pack(pady=20)
+        Label(header, text="Management System", font=("Arial", 18),
+              fg="#a0d8ff", bg="#158aff").pack()
+
+        # Main content
+        main = tk.Frame(self, bg="#1a1a2e")
+        main.pack(expand=True)
+
+        Label(main, text="Welcome! Choose a module to continue",
+              font=("Arial", 22, "bold"), fg="#eee", bg="#1a1a2e").pack(pady=(60, 40))
+
+        btn_frame = tk.Frame(main, bg="#1a1a2e")
+        btn_frame.pack()
+
+        style = {
+            "font": ("Arial", 16, "bold"),
+            "width": 32,
+            "height": 5,
+            "bd": 0,
+            "relief": "flat",
+            "cursor": "hand2",
+            "fg": "white",
+            "activebackground": "#0d63b8",
+            "activeforeground": "white"
+        }
+
+        # Billing Button – opens inside dashboard (updated for new class)
+        tk.Button(btn_frame, text="Billing System\nGenerate & Save Bills",
+                  bg="#158aff", command=self.open_billing, **style).grid(row=0, column=0, padx=60, pady=30)
+
+        # Room Booking Button – opens original details.py unchanged
+        tk.Button(btn_frame, text="Room Booking\nCheck-in / Check-out / Status",
+                  bg="#e74c3c", command=self.open_details_original, **style).grid(row=0, column=1, padx=60, pady=30)
+
+        # Footer
+        Label(self, text="© 2025 Stay-In Hotel • Kathmandu, Nepal", 
+              font=("Arial", 10), fg="#888", bg="#1a1a2e").pack(side=tk.BOTTOM, pady=20)
+
+    def open_billing(self):
+        # Now using the correct class name: HotelManagementSystem
+        win = Toplevel(self)
+        win.title("Hotel Billing System - 8 Tables")
+        win.geometry("1370x720")  # Slightly larger to fit your updated UI
+        win.focus_force()
+        win.grab_set()  # Modal window
+        
+        # Call the correct class from your updated billing.py
+        billing.HotelManagementSystem(win)
+
+    def open_details_original(self):
+        # Opens your original details.py in a separate process — no changes needed!
+        file_path = os.path.join(os.path.dirname(__file__), "details.py")
+        if os.path.exists(file_path):
+            subprocess.Popen([sys.executable, file_path])
+            messagebox.showinfo("Room Booking", "Room Management System opened in a new window!")
+        else:
+            messagebox.showerror("Error", "details.py not found!")
+
+
+# Run dashboard
+if __name__ == "__main__":
+    # No need to call create_database() anymore — billing.py handles it itself
+    app = HotelDashboard()
+    app.mainloop()
