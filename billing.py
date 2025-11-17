@@ -92,7 +92,7 @@ class HotelManagementSystem:
             self.entries[key] = ent
             row += 1
 
-        # Bind Customer Name & Contact to StringVar of current table
+        
         self.entries['customer_name'].bind('<KeyRelease>', lambda e: self.get_current_data()['customer_name'].set(self.entries['customer_name'].get()))
         self.entries['contact_number'].bind('<KeyRelease>', lambda e: self.get_current_data()['customer_contact'].set(self.entries['contact_number'].get()))
 
@@ -127,7 +127,7 @@ class HotelManagementSystem:
         self.y_scroll.pack(side='right', fill='y')
         self.bill_txt.pack(fill='both', expand=True)
 
-        self.switch_table()  # Initial load
+        self.switch_table() 
 
     def get_current_data(self):
         return self.tables_data[int(self.current_table.get())]
@@ -139,13 +139,13 @@ class HotelManagementSystem:
         self.table_display.config(text=f"Active: Table-{table_num}")
         self.bill_no_label.config(text=str(data['bill_no']))
 
-        # Properly restore customer name and contact from this table's StringVar
+        
         self.entries['customer_name'].delete(0, END)
         self.entries['customer_name'].insert(0, data['customer_name'].get())
         self.entries['contact_number'].delete(0, END)
         self.entries['contact_number'].insert(0, data['customer_contact'].get())
 
-        # Rebuild bill
+        
         self.bill_txt.delete(1.0, END)
         self.bill_txt.insert(END, "\t\t\t  Stay-In Hotel\n")
         self.bill_txt.insert(END, "\t\t\tContact: 977896765\n")
@@ -281,8 +281,8 @@ class HotelManagementSystem:
             return False
 
     def view_records(self):
-        # Same as before — unchanged
-        pass  # Keep your existing view_records function or use previous one
+        
+        pass  
 
 
 if __name__ == "__main__":
